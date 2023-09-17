@@ -1,0 +1,61 @@
+######################
+##正态分布检验
+##CH.Q_20230420
+##https:///zhuanlan.zhihu.com/p/149579321
+#####################
+library(dplyr)
+library(ggpubr)
+##导入R内带的iris数据集
+library(datasets)
+data(iris)
+#将数据存储在变量my_data中
+my_data <- iris
+##检查数据
+dim(my_data)
+head(my_data,6)
+##评估R中数据的正态性
+##我们要测试变量Sepal.Length是否正态分布
+#1. 如果样本量足够大（n>30)，则违反正态性假设不会造成重大问题（中心极限定理）。这意味着我们在原则
+#上可以忽略数据存在轻微的分布非正态并使用参数测试。
+#2 但是，为了保持一致，我们可以使用Shapiro-Wilk的显著性检验将样本分布与正常分布进行比较，以确定数据
+#是否显示出与正太性的严重偏移
+
+####视觉方法 
+##密度图:密度图能够直观看到有关分布，如果图形呈对称钟形，我们可以初步判断数据呈正态分布。
+library("ggpubr")
+ggdensity(my_data$Petal.Length, main="Density plot of sepal length", xlab="sepal length")
+##QQ图：QQ图（或分位数图）绘制给定样本与正态分布之间的相关性，并给出了45度参考线，即y=x。当所有点都大致落在该参考线时，我们可以假定数据为正态
+library(ggpubr)
+ggqqplot(my_data$Sepal.Length)
+#####正态性检验
+#视觉方法往只能看个数据分布的大概。显著性检验可以从统计学意义上将样本分布与正常分布进行比较，以确定数据是否显示出正态性的严重偏离。
+#进行正太性检验的方法有几种，例如“Kolmogorov-Smirnov(ks)正态性检验和Shapiro-Wilk检验。
+#这些检验的零假设是“样本分布正常”。如果检验有效（P<0.05),则分布为非正态分布。
+#目前广泛使用的是Shapiro-Wilk方法进行正太性检验，它比KS效能更高。检验的原理是基于数据与相应正常分数之间的相关性。
+#注意：正太性测试对样本量敏感。小样本最常通过正太性测试。因此，重要的是将外观检查和显著性测试相结合以做出正确的决定。
+shapiro.test(my_data$Sepal.Length)
+#从输出来看，p值<0.05，意味着数据的分布与正态分布存在显著差异。但是如前所述，由于本数据含有150个样本，超过30，且从前视觉判断，数据不存在明显的分布不均匀，所以即便P=0.01，我们在这里也可以认为，数据不存在严重的非正态偏差，可以考虑不作数据转换，直接使用。
+
+
+
+
+
+cor.test(dat$ec.panel_total,dat$WES.total,method="spearman",use="complete.obs")
+x <- dat$ec.panel_total
+y <- dat$WES.total
+plot(x,y,main="TMB correlation", xlab="ec-panel",ylab="WES",pch=19,frame=T)
+abline(lm(y~x, data = dat),col="red")
+
+cor.test(dat$ec.panel_total_perMB,dat$WES.total_perMB,method="pearson",use="complete.obs")
+
+x <- dat$ec.panel_total
+y <- dat$WES.total
+plot(x,y,main="TMB correlation", xlab="ec-panel",ylab="WES",pch=19,frame=T)
+abline(lm(y~x, data = dat),col="red")
+
+
+
+
+
+
+
